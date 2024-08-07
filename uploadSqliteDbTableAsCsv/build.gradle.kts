@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.google.ksp)
-
+    id("maven-publish")
 }
 
 android {
@@ -29,13 +29,32 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
+publishing {
+    publications {
+        create<MavenPublication>("mavenRelease") {
+            afterEvaluate {
+                from(components.findByName("release"))
+            }
+            groupId = "com.uploadDb"
+            artifactId = "uploadSqliteDbTableAsCsv"
+            version = "1.0.0"
+        }
+    }
+    repositories {
+        maven {
+            name = "GithubPackages"
+            url = uri("https://maven.pkg.github.com/saeedjavazanjan/uploadSqliteDbTableAsCsv")
+            credentials {
+                username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME_GITHUB")
+                password = project.findProperty("gpr.token") as String? ?: System.getenv("TOKEN_GITHUB")
+            }
+        }
 
+    }
+}
 dependencies {
 
     implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
 
@@ -48,24 +67,17 @@ dependencies {
     implementation(libs.room.ktx)
 
     //csv
-    implementation (libs.opencsv)
+    implementation(libs.opencsv)
 
     //retrofit
-    implementation (libs.retrofit)
-    implementation (libs.converter.gson)
-    implementation (libs.okhttp)
-    implementation (libs.logging.interceptor)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
 
     //reflection
     implementation(libs.kotlin.reflect)
 
-
-
-    //hilt
-    //hilt
-  /*  implementation(libs.hilt.android)
-    ksp(libs.hilt.android.compiler)
-*/
 
 }
 
