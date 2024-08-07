@@ -1,12 +1,14 @@
 package com.saeed.android.uploadSqliteDbTableAsCsv.main
 
+import android.content.Context
+
 class ConvertAndUploadCsvBuilder {
 
     private var jwtBearerToken:String=""
     private var baseUrl:String=""
     private var subUrl:String=""
     private var dataList:MutableList<Any> = mutableListOf()
-
+    private var context : Context?= null
 
     fun setJwtBearerToken(token:String)=apply {
         this.jwtBearerToken=token
@@ -20,10 +22,13 @@ class ConvertAndUploadCsvBuilder {
     fun setDataList(list: MutableList<Any>)=apply {
         this.dataList=list
     }
+    fun setContext(context: Context)=apply {
+        this.context=context
+    }
 
     fun build():ConvertAndUploadCsv{
         return ConvertAndUploadCsv(
-            jwtBearerToken, baseUrl, subUrl, dataList
+            jwtBearerToken, baseUrl, subUrl, dataList,context!!
         )
     }
 
