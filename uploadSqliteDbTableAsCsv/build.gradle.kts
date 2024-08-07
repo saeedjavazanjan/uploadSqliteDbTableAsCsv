@@ -40,17 +40,7 @@ publishing {
             version = "1.0.0"
         }
     }
-    repositories {
-        maven {
-            name = "GithubPackages"
-            url = uri("https://maven.pkg.github.com/saeedjavazanjan/uploadSqliteDbTableAsCsv")
-            credentials {
-                username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME_GITHUB")
-                password = project.findProperty("gpr.token") as String? ?: System.getenv("TOKEN_GITHUB")
-            }
-        }
 
-    }
 }
 dependencies {
 
